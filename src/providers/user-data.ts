@@ -1,14 +1,30 @@
+import Auth0 from 'auth0-js';
 import { Injectable } from '@angular/core';
 
 import { Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
+import UserModel from '../models/user';
+import UserRepository from '../repositories/api/user';
+
+const config = {
+    domain: "cfms.auth0.com",
+    clientID: "DATrpA9uYr5A8nTH3BHAu3eVOvPoZbuJ",
+    responseType: 'token',
+    scope: 'openid',
+    audience: "https://cfms.auth0.com/api/v2/"
+};
 
 @Injectable()
 export class UserData {
   _favorites: string[] = [];
   HAS_LOGGED_IN = 'hasLoggedIn';
   HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
+  auth0 = {
+    authentication: new Auth0.Authentication(config),
+    webAuth: new Auth0.WebAuth(config)
+  };
+  UserRepository = new UserRepository(UserModel);
 
   constructor(
     public events: Events,
@@ -30,10 +46,34 @@ export class UserData {
     }
   };
 
-  login(username: string): void {
-    this.storage.set(this.HAS_LOGGED_IN, true);
-    this.setUsername(username);
-    this.events.publish('user:login');
+  private generateAccessToken(username: string, password: string, cb?: (err: any, res?: any) => any) : Promise<{ accessToken: string, uid: string }> {
+       return new Promise((resolve, reject) => {
+         this.auth0.authentication.login({
+            realm: "cfms-firebase",
+            username: username,
+            password: password
+        }, (err: any, authResult: any) => {
+            if (err) reject(err);
+            this.storage.set('accessToken', authResult.accessToken);
+            this.auth0.authentication.userInfo(authResult.accessToken, (err: any, user: any) => {
+                if (err) reject(err);
+                resolve({ accessToken: authResult.accessToken, uid: user.sub });
+            });
+        });
+       });
+  }
+
+  login(username: string, password: string): void {
+    this.generateAccessToken(username, password).then(res => {
+      console.log(this);
+      console.log(res);
+      this.UserRepository.get(res.accessToken, res.uid).then((user: any) => {
+        console.log(user)
+      })
+    });
+    // this.storage.set(this.HAS_LOGGED_IN, true);
+    // this.setUsername(username);
+    // this.events.publish('user:login');
   };
 
   signup(username: string): void {

@@ -23,7 +23,7 @@ export class LoginPage {
     this.submitted = true;
 
     if (form.valid) {
-      this.userData.login(this.login.username);
+      this.userData.login(this.login.username, this.login.password);
       this.navCtrl.push(TabsPage);
     }
   }

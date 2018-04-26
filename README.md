@@ -6,6 +6,7 @@ This is a demo Ionic CFMS companion mobile application written in TypeScript. It
  - [Getting Started](#getting-started)
  - [App Preview](#app-preview)
  - [File Structure of App](#file-structure-of-app)
+ - [Credits](#credits)
 
 
 ## Getting Started
@@ -159,3 +160,9 @@ ionic-conference-app/
 ├── tsconfig.json                       * Defines the root files and the compiler options
 ├── tslint.json                         * Defines the rules for the TypeScript linter
 ```
+
+## Credits
+
+> Created by [Pavel Yarmak](http://pavel.yarmak.me/).
+
+> Based on [Ionic conference app](https://github.com/ionic-team/ionic-conference-app).

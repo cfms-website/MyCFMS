@@ -9,3 +9,33 @@
   https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html
 */
 declare module '*';
+type User = {
+   email: string,
+   email_verified: boolean,
+   given_name: string,
+   family_name: string,
+   user_metadata: {
+      medical_school: string,
+      graduation_year: string
+   },
+   updated_at: string,
+   name: string,
+   picture: string,
+   user_id: string,
+   nickname: string,
+   identities: [
+    {
+         user_id: string,
+         provider: string,
+         connection: string,
+         isSocial: boolean
+      }
+   ],
+   created_at: string,
+   last_login: string,
+   logins_count: number,
+   app_metadata: {
+      firebase_token: string,
+      roles: string []
+   }
+}

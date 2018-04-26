@@ -65,15 +65,14 @@ export class UserData {
 
   login(username: string, password: string): void {
     this.generateAccessToken(username, password).then(res => {
-      console.log(this);
-      console.log(res);
       this.UserRepository.get(res.accessToken, res.uid).then((user: any) => {
-        console.log(user)
-      })
+        console.dir(user);
+        this.storage.set(this.HAS_LOGGED_IN, true);
+        this.setProfile(JSON.stringify(user.toRow()));
+        // this.setUsername(username);
+        this.events.publish('user:login');
+      });
     });
-    // this.storage.set(this.HAS_LOGGED_IN, true);
-    // this.setUsername(username);
-    // this.events.publish('user:login');
   };
 
   signup(username: string): void {
@@ -89,14 +88,25 @@ export class UserData {
   };
 
   setUsername(username: string): void {
-    this.storage.set('username', username);
+    this.getProfile().then(profile => {
+      profile.name = username;
+      this.setProfile(JSON.stringify(profile));
+    });
   };
 
   getUsername(): Promise<string> {
-    return this.storage.get('username').then((value) => {
-      return value;
-    });
+    return this.getProfile().then(profile => profile.name);
   };
+
+  setProfile(profile: string): void {
+    this.storage.set('profile', profile);
+  }
+
+  getProfile(): Promise<User> {
+    return this.storage.get('profile').then(profile => {
+      return new UserModel(profile);
+    });
+  }
 
   hasLoggedIn(): Promise<boolean> {
     return this.storage.get(this.HAS_LOGGED_IN).then((value) => {

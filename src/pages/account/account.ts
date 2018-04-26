@@ -11,12 +11,14 @@ import { UserData } from '../../providers/user-data';
 })
 export class AccountPage {
   username: string;
+  profile: User;
 
   constructor(public alertCtrl: AlertController, public nav: NavController, public userData: UserData) {
 
   }
 
   ngAfterViewInit() {
+    this.getProfile();
     this.getUsername();
   }
 
@@ -48,6 +50,13 @@ export class AccountPage {
     });
 
     alert.present();
+  }
+
+  getProfile() {
+    this.userData.getProfile().then(profile => {
+      this.profile = profile;
+      console.dir(this.profile);
+    });
   }
 
   getUsername() {

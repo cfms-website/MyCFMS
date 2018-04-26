@@ -16,6 +16,7 @@ import { PopoverPage } from '../pages/about-popover/about-popover';
 import { AccountPage } from '../pages/account/account';
 import { LoginPage } from '../pages/login/login';
 import { MapPage } from '../pages/map/map';
+import { QuestionBankPage } from '../pages/question-bank/question-bank';
 import { SchedulePage } from '../pages/schedule/schedule';
 import { ScheduleFilterPage } from '../pages/schedule-filter/schedule-filter';
 import { SessionDetailPage } from '../pages/session-detail/session-detail';
@@ -38,6 +39,7 @@ import { UserData } from '../providers/user-data';
     LoginPage,
     MapPage,
     PopoverPage,
+    QuestionBankPage,
     SchedulePage,
     ScheduleFilterPage,
     SessionDetailPage,
@@ -54,6 +56,7 @@ import { UserData } from '../providers/user-data';
     IonicModule.forRoot(ConferenceApp, {}, {
       links: [
         { component: TabsPage, name: 'TabsPage', segment: 'tabs' },
+        { component: QuestionBankPage, name: 'QuestionBankPage', segment: 'qbank' },
         { component: SchedulePage, name: 'Schedule', segment: 'schedule' },
         { component: SessionDetailPage, name: 'SessionDetail', segment: 'sessionDetail/:name' },
         { component: ScheduleFilterPage, name: 'ScheduleFilter', segment: 'scheduleFilter' },
@@ -78,6 +81,7 @@ import { UserData } from '../providers/user-data';
     LoginPage,
     MapPage,
     PopoverPage,
+    QuestionBankPage,
     SchedulePage,
     ScheduleFilterPage,
     SessionDetailPage,
